@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 Conversar con la comunidad de Esquema
+    url: https://github.com/esquema-app/esquema/discussions
+    about: Preguntas, ideas y lo que documentaste. / Questions, ideas and what you documented.
+  - name: 🐞 Algo falla en la app
+    url: https://github.com/esquema-app/esquema/issues/new/choose
+    about: Errores e ideas de la app van en el repo principal. / App bugs and ideas go to the main repo.

@@ -1,0 +1,69 @@
+name: 🧩 Proponer una plantilla / Propose a template
+description: Cuéntanos tu plantilla con palabras o pega su JSON. / Describe your template in words or paste its JSON.
+labels: [propuesta, plantilla]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Una plantilla es un diagrama (Mermaid) o un documento (Markdown con diagramas) listo para llenar: una arquitectura, la
+        secuencia de una API, un flujo de usuario, un proceso o un documento como un informe de incidente. **No hace falta programar:**
+        cuéntala con palabras y nosotros armamos el JSON (con tu usuario como autor). Formato y ejemplos en el
+        [README](https://github.com/esquema-app/esquema-catalogo#readme). Usa ejemplos ficticios: nada personal ni de empresas reales.
+
+        A template is a diagram (Mermaid) or a document (Markdown with diagrams) ready to fill in. **No coding needed:** describe it
+        in words and we'll write the JSON (crediting you). Use fictional examples: nothing personal or from real companies.
+  - type: input
+    id: nombre
+    attributes:
+      label: Nombre (y en inglés si puedes) / Name (and in Spanish if you can)
+      placeholder: Flujo de devolución de un producto / Product return flow
+    validations: { required: true }
+  - type: dropdown
+    id: categoria
+    attributes:
+      label: Categoría / Category
+      options:
+        - arquitectura (architecture)
+        - secuencia (sequence, APIs)
+        - flujo-de-usuario (user flow)
+        - proceso (business process)
+        - documentacion (documentation)
+    validations: { required: true }
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: ¿Diagrama o documento? / Diagram or document?
+      options:
+        - diagrama (.mmd)
+        - documento (.md con diagramas / with diagrams)
+    validations: { required: true }
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Qué muestra, paso a paso / What it shows, step by step
+      description: |
+        Las cajas y cómo se conectan, o las secciones del documento. Puedes pegar Mermaid si ya lo tienes.
+        The boxes and how they connect, or the document's sections. You can paste Mermaid if you have it.
+      placeholder: |
+        La persona pide la devolución → la tienda revisa → si se aprueba, el courier retira → reembolso.
+        The person asks for a return → the store reviews it → if approved, the courier picks it up → refund.
+    validations: { required: true }
+  - type: textarea
+    id: json
+    attributes:
+      label: O el JSON, si ya lo tienes (opcional) / Or the JSON, if you have it (optional)
+      render: json
+  - type: input
+    id: autor
+    attributes:
+      label: ¿Cómo te nombramos como autor? (opcional) / How should we credit you? (optional)
+      placeholder: tu usuario de GitHub / your GitHub username
+  - type: checkboxes
+    id: reglas
+    attributes:
+      label: Antes de enviar / Before sending
+      options:
+        - label: Usa ejemplos ficticios, sin nada personal ni de empresas reales / It uses fictional examples, nothing personal or from real companies
+          required: true
+        - label: Acepto que se publique gratis para todos con CC0 1.0, como el resto del catálogo / I agree it's published for free for everyone under CC0 1.0, like the rest of the catalog
+          required: true

@@ -1,0 +1,2 @@
+# La huella SHA-256 de cada plantilla se calcula con saltos de línea LF: así se mantiene en cualquier sistema.
+* text=auto eol=lf

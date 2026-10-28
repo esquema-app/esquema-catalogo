@@ -1,0 +1,33 @@
+# Revisión automática de cada cambio y de cada pull request: las plantillas son solo datos válidos, el índice está al día, el
+# formato es el MISMO de la app y cada diagrama se dibuja sin errores con el motor de Esquema.
+# Corre con «pull_request» (nunca «pull_request_target»): el código de un aporte corre sin secretos y con permiso de solo lectura.
+name: Revisar
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  plantillas:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      # La app (repo público, solo lectura): de ahí salen el formato de referencia y el motor que dibuja.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { repository: esquema-app/esquema, path: _esquema, persist-credentials: false }
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: { node-version: 22 }
+      - name: Solo archivos de datos (JSON) en plantillas/
+        run: |
+          raros=$(git ls-files plantillas | grep -v '\.json$' || true)
+          [ -z "$raros" ] || { echo "Archivos que no son JSON: $raros"; exit 1; }
+      - name: El formato es el mismo de la app (bin/plantilla_formato.py)
+        run: cmp herramientas/plantilla_formato.py _esquema/bin/plantilla_formato.py || { echo "herramientas/plantilla_formato.py tiene que ser idéntico al de esquema-app/esquema (bin/)."; exit 1; }
+      - name: Validar las plantillas y revisar que index.json esté al día
+        run: python3 herramientas/generar_indice.py --revisar
+      - name: Cada diagrama se dibuja sin errores con el motor de Esquema
+        run: node herramientas/revisar_diagramas.mjs _esquema
